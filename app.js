@@ -2,7 +2,8 @@ const express=require("express");
 const bodyParser=require("body-parser");
 const userRoute=require("./routes/userRoute");
 const noteRoute = require("./routes/noteRoute");
-const db = require("./utils/connectDB")
+const db = require("./utils/connectDB");
+const User=require("./models/userDB");
 
 require("dotenv").config();
 

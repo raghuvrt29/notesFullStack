@@ -1,4 +1,5 @@
 const User = require("../models/userDB");
+const mongoose=require("mongoose");
 
 const userService = {
     addUser: async user => {

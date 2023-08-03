@@ -7,7 +7,7 @@ verifyToken = async (req, res, next) => {
         const verifiedUser = jwt.verify(tkn, process.env.JWT_ACC_SECRET)
         if (verifiedUser) {
             const user = await userService.getUserById(verifiedUser.userId);
-            if (user._id === req.params.id) {
+            if (user._id === req.params.userId) {
                 next();
             }
             else {

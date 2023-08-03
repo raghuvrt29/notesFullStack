@@ -9,7 +9,7 @@ noteRoute.post("/:userId",auth,noteController.addNote);
 
 noteRoute.get("/:userId/:noteId",auth,noteController.viewNote);
 
-noteRoute.patch("/:userId/noteId",auth,noteController.editNote);
+noteRoute.patch("/:userId/:noteId",auth,noteController.editNote);
 
 noteRoute.delete("/:userId/:noteId",auth,noteController.remNote);
 

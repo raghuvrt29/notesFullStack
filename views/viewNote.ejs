@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>
+        <%=user.name%>
+    </h1>
+    <% for (let i=0; i < user.notes.length; i++) { %>
+        <a href="/<%=user._id%>/<%=notes[i]._id%>">
+            <li>
+                <%= notes[i].noteTitle %>
+            </li>
+        </a>
+        <% } %>
+        <form action="/:userID/:noteId" method="patch">
+            <input name="newTitle" id="title" type="text" value= <%= note.noteTitle %>>
+            <input type="text" id="content" name="newContent" value= <%= note.noteContent %>>
+            <input type="submit" value="Edit">
+        </form>
+</body>
+
+</html>

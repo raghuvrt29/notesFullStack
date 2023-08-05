@@ -6,7 +6,12 @@ const noteController = {
     displayUser: async (req, res) => {
         try {
             const user = await userService.getUserById(req.params.userId);
-            return res.send(user);
+            const notes=[];
+            for(let i=0;i<user.notes.length;i++){
+                notes.push(await noteService.getNoteById(user.notes[i].noteId));
+            }
+            const data={user,notes};
+            return res.render("home",data);
         }
         catch (err) {
             return res.status(401).json({ message: err.message });
@@ -34,7 +39,7 @@ const noteController = {
                 noteUpdate: await noteService.addNote(note),
                 userUpdate: await userService.addNote(user._id, note._id)
             };
-            return res.json({ result: result });
+            return res.json({result:result}).redirect("/${user._id}/${note._id}");
         }
         catch (error) {
             return res.status(401).json({ message: error.message });
@@ -50,7 +55,12 @@ const noteController = {
             if (user._id !== note.userId)
                 return res.status(401).json({ message: "you are not the owner of this note" });
 
-            return res.send(note);
+            const notes=[];
+            for(let i=0;i<user.notes.length;i++){
+                notes.push(await noteService.getNoteById(user.notes[i].noteId));
+            }
+            const data={user,notes,note};
+            return res.render("viewNote",data);
         }
         catch (error) {
             return res.status(401).json({ message: error.message });
@@ -78,7 +88,7 @@ const noteController = {
                 noteController: newContent
             }
             const result = await noteService.editNote(note._id, obj);
-            return res.json({ result: result });
+            return res.json({ result: result }).redirect("/${user._id}/${note._id}");
         }
         catch (error) {
             res.status(401).json({ message: error.message });
@@ -98,7 +108,7 @@ const noteController = {
                 noteUpdate: await noteService.delNote(note._id),
                 userUpdate: await userService.delNote(user._id, note._id)
             };
-            return res.json({ result: result });
+            return res.json({ result: result }).redirect("/${user._id}");
         }
         catch (error) {
             res.status(401).json({ message: error.message });

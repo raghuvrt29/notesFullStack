@@ -18,7 +18,7 @@
             </li>
         </a>
     <% } %>
-        <form action="/:userID" method="post">
+        <form action="/<%=user._id%>" method="post">
             <input name="title" id="title" type="text" placeholder="Note title...">
             <input type="text" id="content" name="content" placeholder="Note content....">
             <input type="submit" value="Add">

@@ -1,7 +1,7 @@
 const userService = require("../service/userService");
 const jwt = require("jsonwebtoken");
 const uuid = require("uuid").v4;
-const auth=require("../authentication/signTkn");
+const auth = require("../authentication/signTkn");
 
 const userController = {
     signup: async (req, res) => {
@@ -21,7 +21,7 @@ const userController = {
             res.send("Signed up successfully, please login.");
         }
         catch (err) {
-            return res.status(401).json({message:err.message});
+            return res.status(401).json({ message: err.message });
         }
     },
 
@@ -30,22 +30,29 @@ const userController = {
             const { email, password } = req.body;
             if (!email || !password)
                 return res.status(400).json({ message: "Please fill all the fields." });
-            const user=await userService.getUserByEmail(email);
-            if(user.password===password){
-                const payload={
-                    userId:user._id,
-                    name:user.name,
-                    email:user.email
+            const user = await userService.getUserByEmail(email);
+            if(!user)
+                return res.status(404).json({message:"User with this email id doesn't exist"});
+            if (user.password === password) {
+                const payload = {
+                    userId: user._id,
+                    name: user.name,
+                    email: user.email
                 }
-                const tokens=await auth.signToken(payload);
-                return res.json({tokens:tokens});
+                const accToken = await auth.signToken(payload);
+                res.cookie('jwt', accToken, {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'strict'
+                });
+                return res.redirect("/"+payload.userId);
             }
-            else{
-                return res.status(401).json({message:"Wrong Password"});
+            else {
+                return res.status(401).json({ message: "Wrong Password" });
             }
         }
-        catch(err){
-            return res.status(404).json({message:"Invalid username or password"});
+        catch (err) {
+            return res.status(404).json({ message: "Invalid username or password" });
         }
     }
 }

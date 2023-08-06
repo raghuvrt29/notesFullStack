@@ -18,7 +18,7 @@
             </li>
         </a>
         <% } %>
-        <form action="/:userID/:noteId" method="patch">
+        <form action="/<%=user._id%>/<%=note._id%>/edit" method="post">
             <input name="newTitle" id="title" type="text" value= <%= note.noteTitle %>>
             <input type="text" id="content" name="newContent" value= <%= note.noteContent %>>
             <input type="submit" value="Edit">

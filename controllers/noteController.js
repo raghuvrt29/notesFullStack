@@ -39,7 +39,7 @@ const noteController = {
                 noteUpdate: await noteService.addNote(note),
                 userUpdate: await userService.addNote(user._id, note._id)
             };
-            return res.json({result:result}).redirect("/${user._id}/${note._id}");
+            return res.redirect("/"+user._id+"/"+note._id);
         }
         catch (error) {
             return res.status(401).json({ message: error.message });
@@ -78,17 +78,16 @@ const noteController = {
             const { newTitle, newContent } = req.body;
             if (!newTitle || !newContent)
                 return res.status(400).json({ message: "please fill all the fields" });
-
             const isExists = await noteService.getNoteByTitle(newTitle);
             if (isExists && (isExists._id !== note._id))
                 return res.status(400).json({ message: "A note with this title already exists. You can't create another note with same title" });
 
             const obj = {
                 noteTitle: newTitle,
-                noteController: newContent
+                noteContent: newContent
             }
             const result = await noteService.editNote(note._id, obj);
-            return res.json({ result: result }).redirect("/${user._id}/${note._id}");
+            return res.redirect("/"+user._id+"/"+note._id);
         }
         catch (error) {
             res.status(401).json({ message: error.message });

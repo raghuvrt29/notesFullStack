@@ -6,6 +6,8 @@ const noteController = {
     displayUser: async (req, res) => {
         try {
             const user = await userService.getUserById(req.params.userId);
+            if(!user)
+                return res.status(400).json({message:"user doesn't exist"});
             const notes=[];
             for(let i=0;i<user.notes.length;i++){
                 notes.push(await noteService.getNoteById(user.notes[i].noteId));

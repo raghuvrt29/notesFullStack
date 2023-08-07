@@ -54,6 +54,80 @@ const userController = {
         catch (err) {
             return res.status(404).json({ message: "Invalid username or password" });
         }
+    },
+    viewProfile: async(req,res)=>{
+        try{
+            const user= await userService.getUserById(req.params.userId);
+            if(!user)
+                return res.status(400).json({message:"user doesn't exist"});
+            console.log(user);
+            return res.render("userProfile",user);
+        }
+        catch(err){
+            return res.status(401).json({message:err.message});
+        }
+    },
+    viewEditProfilePage: async(req,res)=>{
+        try{
+            const user= await userService.getUserById(req.params.userId);
+            if(!user)
+                return res.status(400).json({message:"user doesn't exist"});
+            return res.render("editProfile",user);
+        }
+        catch(err){
+            return res.status(401).json({message:err.message});
+        }
+    },
+    editUserDetails: async(req,res)=>{
+        try{
+            const user=await userService.getUserById(req.params.userId);
+            if(!user)
+                return res.status(400).json({message:"user doesn't exist"});
+            const {newName,newEmail}=req.body;
+            if(!newName || !newEmail)
+                return res.status(400).json({message:"Please fill all the fields"});
+
+            const obj={
+                name:newName,
+                email:newEmail
+            }
+            const result=await userService.editUserDetails(user._id,obj);
+            return res.redirect("/"+user._id+"/profile");
+        }
+        catch(err){
+            return res.status(401).json({message:err.message});
+        }
+    },
+    viewChangePassword: async(req,res)=>{
+        try{
+            const user= await userService.getUserById(req.params.userId);
+            if(!user)
+                return res.status(400).json({message:"user doesn't exist"});
+            
+            return res.render("changePassword",user);
+        }
+        catch(err){
+            return res.status(401).json({message:err.message});
+        }
+    },
+    changePassword: async(req,res)=>{
+        try{
+            const user=await userService.getUserById(req.params.userId);
+            if(!user)
+                return res.status(400).json({message:"user doesn't exist"});
+
+            const {oldPassword,newPassword}=req.body;
+            if(user.password===oldPassword){
+                const result=await userService.changePassword(user._id,newPassword);
+                return res.redirect("/"+user._id+"/profile");
+            }
+            else{
+                return res.status(401).json({message:"Enter the correct old password"});
+            }
+        }
+        catch(err){
+            return res.status(401).json({message:err.message});
+        }
     }
 }
 

@@ -57,6 +57,34 @@ const userService = {
         catch(err){
             throw err;
         }
+    },
+    editUserDetails: async (userId,obj)=>{
+        try{
+            return await User.updateOne(
+                {_id:userId},
+                {
+                    $set:obj
+                }
+            );
+        }
+        catch(err){
+            throw err;
+        }
+    },
+    changePassword: async (userId,newPassword)=>{
+        try{
+            return await User.updateOne(
+                {_id:userId},
+                {
+                    $set:{
+                        password:newPassword
+                    }
+                }
+            );
+        }
+        catch(err){
+            throw err;
+        }
     }
 }
 

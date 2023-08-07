@@ -8,9 +8,9 @@
 </head>
 
 <body>
-    <h1>
+    <a href="/<%=user._id%>/profile"><h1>
         <%=user.name%>
-    </h1>
+    </h1></a>
     <% for (let i=0; i < notes.length; i++) { %>
         <a href="/<%=user._id%>/<%=notes[i]._id%>">
             <li>

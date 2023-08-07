@@ -60,7 +60,6 @@ const userController = {
             const user= await userService.getUserById(req.params.userId);
             if(!user)
                 return res.status(400).json({message:"user doesn't exist"});
-            console.log(user);
             return res.render("userProfile",user);
         }
         catch(err){

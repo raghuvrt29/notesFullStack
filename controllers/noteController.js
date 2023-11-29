@@ -6,14 +6,19 @@ const noteController = {
     displayUser: async (req, res) => {
         try {
             const user = await userService.getUserById(req.params.userId);
-            if(!user)
-                return res.status(400).json({message:"user doesn't exist"});
-            const notes=[];
-            for(let i=0;i<user.notes.length;i++){
-                notes.push(await noteService.getNoteById(user.notes[i].noteId));
-            }
-            const data={user,notes};
-            return res.render("home",data);
+            if (!user)
+                return res.status(400).json({ message: "user doesn't exist" });
+            var notes = [];
+            notes=await noteService.getNotesByUser(user._id);
+            const data = { 
+                user,
+                notes,
+                formTitle:"",
+                formContent:"",
+                formAction:"/"+user._id,
+                buttonValue:"Add Note"
+            };
+            return res.render("home", data);
         }
         catch (err) {
             return res.status(401).json({ message: err.message });
@@ -28,7 +33,7 @@ const noteController = {
             if (!title || !content)
                 return res.status(400).json({ message: "please fill all the details" });
 
-            const isExists = await noteService.getNoteByTitle(title);
+            const isExists = await noteService.getNoteByTitle(user._id, title);
             if (isExists)
                 return res.status(400).json({ message: "A note with this title already exists. You can't create another note with same title" });
             const note = {
@@ -41,7 +46,7 @@ const noteController = {
                 noteUpdate: await noteService.addNote(note),
                 userUpdate: await userService.addNote(user._id, note._id)
             };
-            return res.redirect("/"+user._id+"/"+note._id);
+            return res.redirect("/" + user._id);
         }
         catch (error) {
             return res.status(401).json({ message: error.message });
@@ -57,12 +62,17 @@ const noteController = {
             if (user._id !== note.userId)
                 return res.status(401).json({ message: "you are not the owner of this note" });
 
-            const notes=[];
-            for(let i=0;i<user.notes.length;i++){
-                notes.push(await noteService.getNoteById(user.notes[i].noteId));
-            }
-            const data={user,notes,note};
-            return res.render("viewNote",data);
+            var notes = [];
+            notes=await noteService.getNotesByUser(user._id);
+            const data = { 
+                user,
+                notes,
+                formTitle:note.noteTitle,
+                formContent:note.noteContent,
+                formAction:"/"+user._id+"/"+note._id,
+                buttonValue:"Edit Note"
+            };
+            return res.render("home", data);
         }
         catch (error) {
             return res.status(401).json({ message: error.message });
@@ -77,19 +87,20 @@ const noteController = {
             if (user._id !== note.userId)
                 return res.status(401).json({ message: "you are not the owner of this note" });
 
-            const { newTitle, newContent } = req.body;
-            if (!newTitle || !newContent)
+            const { title, content } = req.body;
+            if (!title || !content)
                 return res.status(400).json({ message: "please fill all the fields" });
-            const isExists = await noteService.getNoteByTitle(newTitle);
+
+            const isExists = await noteService.getNoteByTitle(title);
             if (isExists && (isExists._id !== note._id))
-                return res.status(400).json({ message: "A note with this title already exists. You can't create another note with same title" });
+                return res.status(400).json({ message: "Another note with this title already exists. You can't create another note with same title" });
 
             const obj = {
-                noteTitle: newTitle,
-                noteContent: newContent
+                noteTitle: title,
+                noteContent: content
             }
             const result = await noteService.editNote(note._id, obj);
-            return res.redirect("/"+user._id+"/"+note._id);
+            return res.redirect("/" + user._id + "/" + note._id);
         }
         catch (error) {
             res.status(401).json({ message: error.message });
@@ -109,10 +120,10 @@ const noteController = {
                 noteUpdate: await noteService.delNote(note._id),
                 userUpdate: await userService.delNote(user._id, note._id)
             };
-            return res.json({ result: result }).redirect("/${user._id}");
+            return res.redirect("/"+user._id);
         }
         catch (error) {
-            res.status(401).json({ message: error.message });
+            res.status(401).redirect("/" + user._id);
         }
     }
 }

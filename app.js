@@ -19,6 +19,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.json());
 
+app.use(express.static(__dirname + '/public'));
+
 app.use("/",userRoute);
 
 app.use("/",noteRoute);

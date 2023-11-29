@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <form action="/login" method="post">
-        <label for="email">Enter the email id:</label>
-        <input type="text" id="email" name="email">
-        <label for="password">Enter the password:</label>
-        <input type="password" id="password" name="password">
-        <input type="submit" value="Login">
-    </form>
+    <div class="loginPage">
+        <form action="/login" method="post"> <div class="userForm">
+            <input class="loginInput" type="text" id="email" name="email" placeholder="Enter e-mail...">
+            <input class="loginInput" type="password" id="password" name="password" placeholder="Enter password">
+            <input class="loginButton" type="submit" value="Login">
+        </div> </form>
+        <p>Do not have an account? <a href="/signup">Signup</a></p>
+    </div>
 </body>
 </html>

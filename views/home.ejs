@@ -5,24 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
-    <a href="/<%=user._id%>/profile"><h1>
-        <%=user.name%>
-    </h1></a>
-    <% for (let i=0; i < notes.length; i++) { %>
-        <a href="/<%=user._id%>/<%=notes[i]._id%>">
-            <li>
+    <div class="App">
+    <div class="sideBar">
+        <h1><a href="/<%=user._id%>/profile" style="text-decoration: none;">
+            <%=user.name%>
+        </a></h1>
+        <a href="/<%=user._id%>" style="text-decoration: none;"><button class="newNote">+ New Note</button></a>
+        <% for (let i=0; i < notes.length; i++) { %>
+            <div class="noteContainer">
+            <a href="/<%=user._id%>/<%=notes[i]._id%>" style="text-decoration: none; width: 100%;"><button class="notes">
                 <%= notes[i].noteTitle %>
-            </li>
-        </a>
-    <% } %>
-        <form action="/<%=user._id%>" method="post">
-            <input name="title" id="title" type="text" placeholder="Note title...">
-            <input type="text" id="content" name="content" placeholder="Note content....">
-            <input type="submit" value="Add">
+            </button></a>
+            <form action="/<%=user._id%>/<%=notes[i]._id%>/delete" method="post">
+                <button id="<%=notes[i]._id%>" type="submit" class="delete"><i class="material-icons">delete</i></button>
+            </form>
+            </div>
+        <% } %>
+    </div>
+    <div class="main">
+        <form class="form-inputs" action=<%=formAction%> method="post">
+            <input class="noteTitle" name="title" id="title" type="text" placeholder="Note title..." value="<%=formTitle%>">
+            <textarea class="noteContent" type="text" id="content" name="content" placeholder="Note content...."><%=formContent%></textarea>
+            <input class="submit" type="submit" value="<%=buttonValue%>">
         </form>
+    </div>
+    </div>
 </body>
 
 </html>

@@ -1,4 +1,6 @@
+const note = require("../models/noteDB");
 const Note = require("../models/noteDB");
+const _= require("lodash");
 
 const noteService = {
     addNote: async note => {
@@ -25,9 +27,9 @@ const noteService = {
             throw err;
         }
     },
-    getNoteByTitle: async title => {
+    getNoteByTitle: async (userId,title) => {
         try {
-            return await Note.findOne({ noteTitle: title });
+            return await Note.findOne({ noteTitle: title, userId: userId });
         }
         catch (err) {
             throw err;
@@ -35,7 +37,10 @@ const noteService = {
     },
     getNotesByUser: async userId => {
         try {
-            return await Note.find({ userId: userId });
+            const notes= await Note.find({ userId: userId });
+            return notes.map((item)=>{
+                return _.pick(item,["_id","noteTitle"]);
+            })
         }
         catch (err) {
             throw err;

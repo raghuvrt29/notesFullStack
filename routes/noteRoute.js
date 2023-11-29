@@ -9,8 +9,8 @@ noteRoute.post("/:userId",auth,noteController.addNote);
 
 noteRoute.get("/:userId/:noteId",auth,noteController.viewNote);
 
-noteRoute.post("/:userId/:noteId/edit",auth,noteController.editNote);
+noteRoute.post("/:userId/:noteId",auth,noteController.editNote);
 
-noteRoute.delete("/:userId/:noteId",auth,noteController.remNote);
+noteRoute.post("/:userId/:noteId/delete",auth,noteController.remNote);
 
 module.exports=noteRoute;

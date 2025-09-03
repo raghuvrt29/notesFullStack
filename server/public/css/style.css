@@ -1,0 +1,155 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+a{
+    color:white;
+}
+body{
+    background-color: #072541;
+    color: white;
+    font-family: 'Montserrat',sans-serif;
+}
+.App{
+    min-height: 100vh;
+    display: flex;
+}
+.sideBar{
+    flex: 1;
+    flex-grow:1;
+    flex-shrink: 1;
+    border-right: 1px solid rgb(186, 186, 186);
+    padding: 2.5rem;
+}
+h1{
+    padding-bottom: 1rem;
+    font-weight: 800;
+    font-size: 45px;
+}
+.newNote{
+    border: none;
+    margin-bottom: 1.5rem;
+    background-color: #5272F2;
+    height: 3rem;
+    font-size: 25px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    padding: 10px;
+    color: white;
+    width: 100%;
+    margin: 20px 0 20px 0;
+}
+.noteContainer{
+    display: flex;
+    gap: 10px;
+}
+.delete{
+    display: flex;
+    flex:1;
+    flex-shrink: 0;
+    background-color: rgb(222, 0, 0);
+    border: 1px solid rgb(186, 186, 186);
+    margin: 0.5rem auto;
+    border-radius: 0.5rem;
+    padding: 8px;
+    font-size: 20px;
+    color: white;
+}
+.notes{
+    display: flex;
+    flex:9;
+    border: 1px solid rgb(186, 186, 186);
+    background: transparent;
+    text-align: left;
+    margin: 0.5rem auto;
+    border-radius: 0.5rem;
+    padding: 8px;
+    font-size: 20px;
+    color: white;
+    width: 100%;
+}
+.main{
+    flex: 3;
+    flex-grow:3;
+    flex-shrink: 3;
+    flex-direction: column;
+    align-items: center;
+}
+.form-inputs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.noteTitle{
+    background: transparent;
+    padding: 10px;
+    font-size: 20px;
+    border: 1px solid rgb(186, 186, 186);
+    border-radius: 0.5rem;
+    margin-top: 3rem;
+    width:85%;
+    color:white;
+}
+textarea{
+    font-family: "Montserrat", sans-serif;
+}
+.noteContent{
+    background: transparent;
+    border: 1px solid rgb(186, 186, 186);
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    height: 900%;
+    width:85%;
+    color: white;
+    font-size: 15px;
+    padding: 10px;
+    font-family: "Montserrat" sans-serif;
+}
+.submit{
+    border:none;
+    background-color: #5272F2;
+    margin-top: 1rem;
+    width: 85%;
+    padding: 10px;
+    font-size: 25px;
+    font-weight: 600;
+    color: white;
+    border-radius: 0.5rem;
+}
+.loginPage{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 20px;
+}
+.loginInput{
+    font-size: large;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid rgb(186, 186, 186);
+    font-family: "Montserrat" sans-serif;
+    width: 500px;
+}
+.loginButton{
+    font-size: large;
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+    width: 50%;
+    background-color: #5272F2;
+}
+.userForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    row-gap: 20px;
+    border: 3px solid rgb(186, 186, 186);
+    border-radius: 30px;
+}

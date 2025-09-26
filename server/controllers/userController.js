@@ -40,12 +40,7 @@ const userController = {
                     email: user.email
                 }
                 const accToken = await auth.signToken(payload);
-                res.cookie('jwt', accToken, {
-                    httpOnly: true,
-                    secure: true,
-                    sameSite: 'strict'
-                });
-                return res.redirect("/"+payload.userId);
+                return res.json({token: accToken});
             }
             else {
                 return res.status(401).json({ message: "Wrong Password" });
@@ -57,7 +52,7 @@ const userController = {
     },
     viewProfile: async(req,res)=>{
         try{
-            const user= await userService.getUserById(req.params.userId);
+            const user= await userService.getUserById(req.user.userId);
             if(!user)
                 return res.status(400).json({message:"user doesn't exist"});
             return res.render("userProfile",user);
@@ -68,7 +63,7 @@ const userController = {
     },
     viewEditProfilePage: async(req,res)=>{
         try{
-            const user= await userService.getUserById(req.params.userId);
+            const user= await userService.getUserById(req.user.userId);
             if(!user)
                 return res.status(400).json({message:"user doesn't exist"});
             return res.render("editProfile",user);
@@ -79,7 +74,7 @@ const userController = {
     },
     editUserDetails: async(req,res)=>{
         try{
-            const user=await userService.getUserById(req.params.userId);
+            const user=await userService.getUserById(req.user.userId);
             if(!user)
                 return res.status(400).json({message:"user doesn't exist"});
             const {newName,newEmail}=req.body;
@@ -99,7 +94,7 @@ const userController = {
     },
     viewChangePassword: async(req,res)=>{
         try{
-            const user= await userService.getUserById(req.params.userId);
+            const user= await userService.getUserById(req.user.userId);
             if(!user)
                 return res.status(400).json({message:"user doesn't exist"});
             
@@ -111,7 +106,7 @@ const userController = {
     },
     changePassword: async(req,res)=>{
         try{
-            const user=await userService.getUserById(req.params.userId);
+            const user=await userService.getUserById(req.user.userId);
             if(!user)
                 return res.status(400).json({message:"user doesn't exist"});
 

@@ -16,14 +16,14 @@ userRoute.get("/login",(req,res)=>{
 
 userRoute.post("/login",userController.login);
 
-userRoute.get("/:userId/profile",auth,userController.viewProfile);
+userRoute.get("/profile",auth,userController.viewProfile);
 
-userRoute.get("/:userId/editProfile",auth,userController.viewEditProfilePage);
+userRoute.get("/editProfile",auth,userController.viewEditProfilePage);
 
-userRoute.post("/:userId/editProfile",auth,userController.editUserDetails);
+userRoute.post("/editProfile",auth,userController.editUserDetails);
 
-userRoute.get("/:userId/changePassword",auth,userController.viewChangePassword);
+userRoute.get("/changePassword",auth,userController.viewChangePassword);
 
-userRoute.post("/:userId/changePassword",auth,userController.changePassword);
+userRoute.post("/changePassword",auth,userController.changePassword);
 
 module.exports=userRoute;

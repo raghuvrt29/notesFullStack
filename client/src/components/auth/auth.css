@@ -1,0 +1,88 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    color: white;
+}
+
+body {
+    background-color: #072541;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.loginPage {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.loginInput {
+    font-size: large;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid rgb(186, 186, 186);
+    font-family: "Montserrat", sans-serif;
+    width: 500px;
+    background-color: transparent;
+    color: white;
+}
+
+.loginInput:focus {
+    outline: none;
+    border-color: #5272F2;
+}
+
+.loginButton {
+    font-size: large;
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+    width: 50%;
+    background-color: #5272F2;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.loginButton:hover {
+    background-color: #4460d1;
+}
+
+.loginButton:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.userForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    row-gap: 20px;
+    border: 3px solid rgb(186, 186, 186);
+    border-radius: 30px;
+}
+
+.userForm p {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.userForm a {
+    color: #5272F2;
+    text-decoration: none;
+}
+
+.userForm a:hover {
+    text-decoration: underline;
+}

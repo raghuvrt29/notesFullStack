@@ -1,17 +1,30 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './style.css';
+import { Link,useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../features/authSlice';
+import api from '../../axios/api';
+import './auth.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic
+
     const loginData = { email, password };
-    console.log('Login data:', loginData);
-    // Make API call or handle authentication
+    try{
+      const response = await api.post('/login', loginData);
+      if(response.status === 200){
+        dispatch(setUser({username: email, token: response.data.token}));
+        navigate('/');
+      }
+    }
+    catch(error){
+      console.error('Login failed:', error);
+    }
   };
 
   return (

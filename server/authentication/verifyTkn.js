@@ -4,16 +4,16 @@ require("dotenv").config();
 
 verifyToken = async (req, res, next) => {
     try {
-        const tkn = req.cookies.jwt;
-        const verifiedUser = jwt.verify(tkn, process.env.JWT_ACC_SECRET)
+        const tkn = req.headers.authorization;
+        
+        if(!tkn){
+            return res.status(401).send("Unauthorized");
+        }
+
+        const verifiedUser = jwt.verify(tkn.split(" ")[1], process.env.JWT_ACC_SECRET)
         if (verifiedUser) {
-            const user = await userService.getUserById(verifiedUser.userId);
-            if (user._id === req.params.userId) {
-                next();
-            }
-            else {
-                return res.status(401).send("Invalid Token");
-            }
+            req.user = verifiedUser;
+            next();
         }
         else {
             return res.status(401).send("invalid token");

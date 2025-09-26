@@ -5,7 +5,7 @@ const uuid = require("uuid").v4;
 const noteController = {
     displayUser: async (req, res) => {
         try {
-            const user = await userService.getUserById(req.params.userId);
+            const user = await userService.getUserById(req.user.userId);
             if (!user)
                 return res.status(400).json({ message: "user doesn't exist" });
             var notes = [];
@@ -26,7 +26,7 @@ const noteController = {
     },
     addNote: async (req, res) => {
         try {
-            const user = await userService.getUserById(req.params.userId);
+            const user = await userService.getUserById(req.user.userId);
             if (!user)
                 return res.status(400).json({ message: "user doesn't exist" });
             const { title, content } = req.body;
@@ -54,7 +54,7 @@ const noteController = {
     },
     viewNote: async (req, res) => {
         try {
-            const user = await userService.getUserById(req.params.userId);
+            const user = await userService.getUserById(req.user.userId);
             const note = await noteService.getNoteById(req.params.noteId);
             if (!user || !note)
                 return res.status(400).json({ message: "Invalid URL" });
@@ -80,7 +80,7 @@ const noteController = {
     },
     editNote: async (req, res) => {
         try {
-            const user = await userService.getUserById(req.params.userId);
+            const user = await userService.getUserById(req.user.userId);
             const note = await noteService.getNoteById(req.params.noteId);
             if (!user || !note)
                 return res.status(400).json({ message: "Invalid URL" });
@@ -108,7 +108,7 @@ const noteController = {
     },
     remNote: async (req, res) => {
         try {
-            const user = await userService.getUserById(req.params.userId);
+            const user = await userService.getUserById(req.user.userId);
             const note = await noteService.getNoteById(req.params.noteId);
             if (!user || !note)
                 return res.status(400).json({ message: "Invalid URL" });

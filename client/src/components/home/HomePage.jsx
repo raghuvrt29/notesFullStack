@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import NoteForm from './NoteForm';
 import { fetchNotes, fetchNoteById, createNote, updateNote, deleteNote, setSelectedNote, clearSelectedNote } from '../../features/notesSlice';
@@ -7,6 +8,7 @@ import './home.css';
 
 const HomePage = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { user } = useSelector(state => state.auth);
     const { notes, selectedNote, loading, error } = useSelector(state => state.notes);
     
@@ -61,6 +63,15 @@ const HomePage = () => {
         dispatch(clearSelectedNote());
         setIsEditing(false);
     };
+
+    if(!user){
+        try{
+            navigate('/login');
+        }
+        catch(e){
+            console.log("Please login..");
+        }
+    }
 
     if (loading) {
         return <div className="loading">Loading...</div>;

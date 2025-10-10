@@ -47,7 +47,7 @@ const userController = {
             }
         }
         catch (err) {
-            return res.status(404).json({ message: "Invalid username or password" });
+            return res.status(404).json({ message: "Invalid username or password" + err.message });
         }
     },
     viewProfile: async(req,res)=>{

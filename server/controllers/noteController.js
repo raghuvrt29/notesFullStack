@@ -12,13 +12,9 @@ const noteController = {
             notes=await noteService.getNotesByUser(user._id);
             const data = { 
                 user,
-                notes,
-                formTitle:"",
-                formContent:"",
-                formAction:"/"+user._id,
-                buttonValue:"Add Note"
+                notes
             };
-            return res.render("home", data);
+            return res.send(data);
         }
         catch (err) {
             return res.status(401).json({ message: err.message });

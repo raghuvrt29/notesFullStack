@@ -7,7 +7,7 @@ verifyToken = async (req, res, next) => {
         const tkn = req.headers.authorization;
         
         if(!tkn){
-            return res.status(401).send("Unauthorized");
+            return res.status(401).send("Please login first...");
         }
 
         const verifiedUser = jwt.verify(tkn.split(" ")[1], process.env.JWT_ACC_SECRET)

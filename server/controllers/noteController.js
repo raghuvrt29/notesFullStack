@@ -14,7 +14,7 @@ const noteController = {
                 user,
                 notes
             };
-            return res.send(data);
+            return res.status(200).send(data);
         }
         catch (err) {
             return res.status(401).json({ message: err.message });
@@ -26,9 +26,11 @@ const noteController = {
             if (!user)
                 return res.status(400).json({ message: "user doesn't exist" });
             const { title, content } = req.body;
+            console.log("request recieved for user: ", user._id, " to create note: ", title);
+
             if (!title || !content)
                 return res.status(400).json({ message: "please fill all the details" });
-
+            
             const isExists = await noteService.getNoteByTitle(user._id, title);
             if (isExists)
                 return res.status(400).json({ message: "A note with this title already exists. You can't create another note with same title" });
@@ -42,7 +44,10 @@ const noteController = {
                 noteUpdate: await noteService.addNote(note),
                 userUpdate: await userService.addNote(user._id, note._id)
             };
-            return res.redirect("/" + user._id);
+            console.log(result);
+            return res.status(201).json({
+                message: "note create successfully"
+            });
         }
         catch (error) {
             return res.status(401).json({ message: error.message });
@@ -68,7 +73,7 @@ const noteController = {
                 formAction:"/"+user._id+"/"+note._id,
                 buttonValue:"Edit Note"
             };
-            return res.render("home", data);
+            return res.status(200).send(data);
         }
         catch (error) {
             return res.status(401).json({ message: error.message });
@@ -96,7 +101,9 @@ const noteController = {
                 noteContent: content
             }
             const result = await noteService.editNote(note._id, obj);
-            return res.redirect("/" + user._id + "/" + note._id);
+            return res.status(200).json({
+                message: "Note updated successfully"
+            });
         }
         catch (error) {
             res.status(401).json({ message: error.message });
@@ -116,10 +123,14 @@ const noteController = {
                 noteUpdate: await noteService.delNote(note._id),
                 userUpdate: await userService.delNote(user._id, note._id)
             };
-            return res.redirect("/"+user._id);
+            return res.status(200).json({
+                message: "Note deleted successfully"
+            });
         }
         catch (error) {
-            res.status(401).redirect("/" + user._id);
+            res.status(401).json({
+                message: error.message
+            });
         }
     }
 }

@@ -1,14 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../axios/api";
+import { setUser } from "./authSlice";
 
 // Async thunks for API calls
 export const fetchNotes = createAsyncThunk(
     'notes/fetchNotes',
-    async (_, { rejectWithValue }) => {
+    async (_, { dispatch, rejectWithValue }) => {
         try {
             // This calls GET / which is noteController.displayUser
             // JWT token in Authorization header provides the userId
             const response = await api.get('/');
+            if(response.data.user){
+                dispatch(setUser(response.data.user));
+            }
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || 'Failed to fetch notes');
@@ -111,6 +115,7 @@ export const notesSlice = createSlice({
                 state.error = null;
             })
             .addCase(createNote.fulfilled, (state, action) => {
+                console.log("note created");
                 state.loading = false;
                 // Refresh notes after creating
             })

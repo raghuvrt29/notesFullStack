@@ -13,6 +13,7 @@ verifyToken = async (req, res, next) => {
         const verifiedUser = jwt.verify(tkn.split(" ")[1], process.env.JWT_ACC_SECRET)
         if (verifiedUser) {
             req.user = verifiedUser;
+            console.log("user logged in: ", verifiedUser.name)
             next();
         }
         else {

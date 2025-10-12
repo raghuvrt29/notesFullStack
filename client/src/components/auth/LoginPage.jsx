@@ -18,7 +18,7 @@ const LoginPage = () => {
     try{
       const response = await api.post('/login', loginData);
       if(response.status === 200){
-        dispatch(setUser({username: email, token: response.data.token}));
+        dispatch(setUser({token: response.data.token}));
         navigate('/');
       }
     }

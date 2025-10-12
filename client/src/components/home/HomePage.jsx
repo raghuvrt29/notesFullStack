@@ -9,7 +9,7 @@ import './home.css';
 const HomePage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { user } = useSelector(state => state.auth);
+    const { user, token } = useSelector(state => state.auth);
     const { notes, selectedNote, loading, error } = useSelector(state => state.notes);
     
     const [isEditing, setIsEditing] = useState(false);
@@ -23,7 +23,7 @@ const HomePage = () => {
         try {
             await dispatch(createNote(noteData)).unwrap();
             // Refetch notes to get the updated list
-            dispatch(fetchNotes());
+            await dispatch(fetchNotes());
             setIsEditing(false);
         } catch (error) {
             console.error('Failed to create note:', error);
@@ -64,7 +64,7 @@ const HomePage = () => {
         setIsEditing(false);
     };
 
-    if(!user){
+    if(!token){
         try{
             navigate('/login');
         }
